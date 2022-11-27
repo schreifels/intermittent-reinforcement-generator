@@ -40,6 +40,8 @@ window.addEventListener("load", () => {
     return;
   }
 
+  document.title = percentage + "% " + document.title;
+
   const randomNumber = getRandomNumber1To100();
   setTimeout(() => unhideElement(percentage, randomNumber), LOADING_DELAY_MS);
 });
