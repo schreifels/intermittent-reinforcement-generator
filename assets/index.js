@@ -5,6 +5,8 @@ const YES_CLASSNAME = "yes";
 const NO_CLASSNAME = "no";
 const REROLL_CLASSNAME = "reroll";
 
+const timeouts = [];
+
 function getPercentage() {
   const queryString = new URLSearchParams(window.location.search);
   const percentage = queryString.get("pct");
@@ -36,8 +38,20 @@ function revealReward(percentage, randomNumber) {
 }
 
 function resetReward() {
+  clearTrackedTimeouts();
   document.body.classList.remove(YES_CLASSNAME, NO_CLASSNAME);
   document.body.classList.add(REROLL_CLASSNAME);
+}
+
+function setTrackedTimeout(...args) {
+  const timeout = setTimeout(...args);
+  timeouts.push(timeout);
+  return timeout;
+}
+
+function clearTrackedTimeouts() {
+  timeouts.forEach(clearTimeout);
+  timeouts.splice(0, timeouts.length); // clear timeouts array in-place
 }
 
 window.addEventListener("load", () => {
@@ -50,6 +64,10 @@ window.addEventListener("load", () => {
   document.title = percentage + "% " + document.title;
 
   const randomNumber = getRandomNumber1To100();
-  setTimeout(() => revealReward(percentage, randomNumber), LOADING_DELAY_MS);
-  setTimeout(resetReward, RESET_DELAY_MS);
+  setTrackedTimeout(
+    () => revealReward(percentage, randomNumber),
+    LOADING_DELAY_MS
+  );
+  setTrackedTimeout(resetReward, RESET_DELAY_MS);
+  window.addEventListener("blur", resetReward);
 });
