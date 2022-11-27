@@ -1,7 +1,9 @@
 const LOADING_DELAY_MS = 1050;
+const RESET_DELAY_MS = 15000;
 const DEFAULT_PERCENTAGE = 85;
 const YES_CLASSNAME = "yes";
 const NO_CLASSNAME = "no";
+const REROLL_CLASSNAME = "reroll";
 
 function getPercentage() {
   const queryString = new URLSearchParams(window.location.search);
@@ -28,9 +30,14 @@ function getRandomNumber1To100() {
   return Math.floor(Math.random() * 100) + 1;
 }
 
-function unhideElement(percentage, randomNumber) {
+function revealReward(percentage, randomNumber) {
   const className = randomNumber > percentage ? NO_CLASSNAME : YES_CLASSNAME;
   document.body.classList.add(className);
+}
+
+function resetReward() {
+  document.body.classList.remove(YES_CLASSNAME, NO_CLASSNAME);
+  document.body.classList.add(REROLL_CLASSNAME);
 }
 
 window.addEventListener("load", () => {
@@ -43,5 +50,6 @@ window.addEventListener("load", () => {
   document.title = percentage + "% " + document.title;
 
   const randomNumber = getRandomNumber1To100();
-  setTimeout(() => unhideElement(percentage, randomNumber), LOADING_DELAY_MS);
+  setTimeout(() => revealReward(percentage, randomNumber), LOADING_DELAY_MS);
+  setTimeout(resetReward, RESET_DELAY_MS);
 });

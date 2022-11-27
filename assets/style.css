@@ -46,14 +46,16 @@ a {
 }
 
 .yes .loader,
-.no .loader {
+.no .loader,
+.reroll .loader {
   display: none;
 }
 
 /** Yes/no content **/
 
 .yes-content,
-.no-content {
+.no-content,
+.reroll-content {
   display: none;
   padding: 3rem;
 }
@@ -66,7 +68,12 @@ a {
   background: #e96161;
 }
 
+.reroll {
+  background: #e2e2e2;
+}
+
 .yes .yes-content,
-.no .no-content {
+.no .no-content,
+.reroll .reroll-content {
   display: block;
 }
