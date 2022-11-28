@@ -1,6 +1,8 @@
 const LOADING_DELAY_MS = 1050;
 const RESET_DELAY_MS = 10000 + LOADING_DELAY_MS;
 const DEFAULT_PERCENTAGE = 60;
+const LOADER_BAR_CLASSNAME = "loader-bar";
+const LOADER_BAR_LOADING_CLASSNAME = "loader-bar-loading";
 const YES_CLASSNAME = "yes";
 const NO_CLASSNAME = "no";
 const REROLL_CLASSNAME = "reroll";
@@ -22,7 +24,7 @@ function getPercentage() {
   return parsedPercentage;
 }
 
-function redirectWithPercentage() {
+function redirectWithDefaultPercentage() {
   const queryString = new URLSearchParams(window.location.search);
   queryString.set("pct", DEFAULT_PERCENTAGE);
   window.location.replace(window.location.pathname + "?" + queryString);
@@ -30,6 +32,11 @@ function redirectWithPercentage() {
 
 function getRandomNumber1To100() {
   return Math.floor(Math.random() * 100) + 1;
+}
+
+function startLoading() {
+  const loaderBar = document.querySelector("." + LOADER_BAR_CLASSNAME);
+  loaderBar.classList.add(LOADER_BAR_LOADING_CLASSNAME);
 }
 
 function revealReward(percentage, randomNumber) {
@@ -57,13 +64,14 @@ function clearTrackedTimeouts() {
 window.addEventListener("load", () => {
   const percentage = getPercentage();
   if (percentage === undefined) {
-    redirectWithPercentage();
+    redirectWithDefaultPercentage();
     return;
   }
 
   document.title = percentage + "% " + document.title;
 
   const randomNumber = getRandomNumber1To100();
+  startLoading();
   setTrackedTimeout(
     () => revealReward(percentage, randomNumber),
     LOADING_DELAY_MS
