@@ -10,9 +10,9 @@ Dr. Andrew Huberman, a neuroscientist at the Stanford University School of Medic
 
 ## Usage
 
-https://schreifels.github.io/intermittent-reinforcement-generator/?pct=85
+https://schreifels.github.io/intermittent-reinforcement-generator/?pct=60
 
-(This will result in a reward 85% of the time. Update the "85" in the URL to whatever value you like.)
+(This will result in a reward 60% of the time. Update the "60" in the URL to whatever value you like.)
 
 ## Demo
 
